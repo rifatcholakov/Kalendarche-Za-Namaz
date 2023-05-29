@@ -5,7 +5,7 @@ if('serviceWorker' in navigator) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const response = await fetch("http://127.0.0.1:5500/time.json");
+    const response = await fetch("/time.json");
     const prayerTimeTable = await response.json();
 
     const userDateInfo = getCurrentUserDate();

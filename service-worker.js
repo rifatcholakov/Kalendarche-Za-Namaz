@@ -9,7 +9,7 @@ const assets = [
     '/css/styles.css',
     '/css/materialize.min.css',
     '/img/dish.png'
-]
+];
 
 self.addEventListener('install', evt => {
     console.log('service worker has been installed');
