@@ -1,0 +1,27 @@
+body {
+    font-family: sans-serif;
+}
+
+.app-title {
+    font-weight: 700;
+    text-align: center;
+}
+
+.today {
+    font-size: 1.9em;
+    text-align: center;
+}
+
+.times-container {
+    width: 100%;
+    padding: 1.5em;   
+}
+
+.prayer .name {
+    font-size: 1.7em;
+    margin-right: 0.25em;
+}
+
+.prayer .time {
+    font-size: 1.7em;
+}
