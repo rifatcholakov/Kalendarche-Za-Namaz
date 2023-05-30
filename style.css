@@ -1,13 +1,23 @@
 body {
     font-family: sans-serif;
-    background: #2E8B57;
+    background: #fff;
     color: #fff;
     margin: 0;
+}
+
+.wrapper {
+    background: #2E8B57;
+}
+
+.header {
+    background: #2E8B57;
+    padding: 1.5em;
 }
 
 .app-title {
     font-weight: 700;
     text-align: center;
+    margin-top: 0;
 }
 
 .today {
