@@ -7,8 +7,6 @@ const assets = [
     '/style.css',
     '/time.json',
     '/css/styles.css',
-    '/css/materialize.min.css',
-    '/img/dish.png'
 ];
 
 self.addEventListener('install', evt => {
@@ -24,6 +22,6 @@ self.addEventListener("activate", evt => {
     console.log('service worker has been activated');
 });
 
-// self.addEventListener('fetch', evt => {
-//     console.log('fetch event', evt)
-// });
+self.addEventListener('fetch', evt => {
+    // console.log('fetch event', evt)
+});

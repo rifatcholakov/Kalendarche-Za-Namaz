@@ -1,5 +1,8 @@
 body {
     font-family: sans-serif;
+    background: #2E8B57;
+    color: #fff;
+    margin: 0;
 }
 
 .app-title {
@@ -13,15 +16,27 @@ body {
 }
 
 .times-container {
-    padding: 1.5em;   
+    padding: 1.5em;
+    background: #fff;
+    border-radius: 0.8em;
+    color: #000;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+
+.prayer {
+    /* box-shadow: -2px 5px 19px -4px rgba(0,0,0,0.75); */
+    padding: 1em 2em;
+    background: #f9f9f9;
+    border-radius: 0.5em;
 }
 
 .prayer .name {
-    font-size: 1.7em;
+    font-size: 1.5em;
     margin-right: 0.25em;
 }
 
 .prayer .time {
     font-size: 1.7em;
-    color: #000;
 }
