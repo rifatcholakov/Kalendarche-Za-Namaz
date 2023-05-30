@@ -5,7 +5,7 @@ if('serviceWorker' in navigator) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const response = await fetch("/Kalendarche-Za-Namaz/time.json");
+    const response = await fetch("/time.json");
     const prayerTimeTable = await response.json();
 
     const userDateInfo = getCurrentUserDate();
@@ -51,4 +51,8 @@ function getCurrentUserDate() {
         currentMonth,
         currentDate
     }
+}
+
+function calculateNightPrayer() {
+    
 }
