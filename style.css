@@ -28,7 +28,7 @@ body {
 .times-container {
     padding: 1.5em;
     background: #fff;
-    border-radius: 0.8em;
+    border-radius: 1.2em;
     color: #000;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -36,7 +36,6 @@ body {
 
 
 .prayer {
-    /* box-shadow: -2px 5px 19px -4px rgba(0,0,0,0.75); */
     padding: 1em 2em;
     background: #f9f9f9;
     border-radius: 0.5em;
