@@ -41,7 +41,7 @@ function renderPrayers(prayerTimes) {
 function getCurrentUserDate() {
     const currentUserTimeAsTimeStamp = Date.now();
     const fullDate = new Date(currentUserTimeAsTimeStamp);
-    const currentMonth = fullDate.getMonth();
+    const currentMonth = fullDate.getMonth() + 1;
     const currentDate = fullDate.getDate();
     const currentYear = fullDate.getFullYear();
 
