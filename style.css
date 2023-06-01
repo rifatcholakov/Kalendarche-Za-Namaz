@@ -23,17 +23,24 @@ body {
 .today {
     font-size: 1.9em;
     text-align: center;
+    font-weight: 600;
 }
 
 .times-container {
     padding: 1.5em;
     background: #fff;
-    border-radius: 1.2em;
     color: #000;
+    border-radius: 1.2em;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
 
+.date {
+    text-align: center;
+    margin-top: 2em;
+    font-size: 1.9em;
+    font-weight: 600;
+}
 
 .prayer {
     padding: 1em 2em;
