@@ -128,5 +128,5 @@ function getPrayerTemplate(down, sunrise, dhuhr, asr, maghrib, isha) {
 }
 
 function getPayerDateTemplate(date) {
-    return `<h2 class="date">${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}</h2>`
+    return `<h2 class="date">Утре: ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}</h2>`
 }
