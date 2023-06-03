@@ -1,4 +1,4 @@
-if('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js')
         .then((reg) => console.log('service worker registered', reg))
         .catch((err) => console.error('service worker not registered', err))
@@ -8,75 +8,66 @@ document.addEventListener("DOMContentLoaded", async () => {
     const response = await fetch("/time.json");
     const prayerTimeTable = await response.json();
 
-    const userDateInfo = getCurrentUserDate();
+    // SLIDER
+    var mySwiper = new Swiper('#swiper-container', {
+        direction: 'vertical',
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        mousewheel: true,
+    });
 
-    const currentMonthPrayerTable = prayerTimeTable[userDateInfo.currentMonth];
-    const currentDatePrayerTable = currentMonthPrayerTable[userDateInfo.currentDate]
-    
-    renderCurrentDate(userDateInfo);
-    renderPrayers(currentDatePrayerTable);
-    
-    const nextDate = getNextDate(userDateInfo.fullDate, 1);
-    const nextMonthPrayerTable = prayerTimeTable[nextDate.nextMonth];
-    const nextDayPrayerTable = nextMonthPrayerTable[nextDate.nextDate];
-    renderPrayers(nextDayPrayerTable, nextDate.fullNextDate);
-    
-    // calculateNightPrayer(currentDatePrayerTable.maghrib, nextDayPrayerTable.sunrise);
-});
+    // mySwiper.on('slideChange', function () {
+    //     console.log('Slide changed');
+    // });
+    // END
 
-function renderCurrentDate(userDateInfo) {
-    const currentDate = document.querySelector("#current-date")
-    currentDate.textContent = `${userDateInfo.currentDate}/${userDateInfo.currentMonth}/${userDateInfo.currentYear}`;
-}
+    const currentFullDate = getCurrentUserDate();
+    const allDatesContainingPrayersForCurrentMonth = prayerTimeTable[currentFullDate.getMonth() + 1];
+    const currentDayPrayer = allDatesContainingPrayersForCurrentMonth[currentFullDate.getDate()];
+    const currentDaySlideTemplate = getPrayerTemplate(currentDayPrayer, currentFullDate);
+    mySwiper.appendSlide(currentDaySlideTemplate);
 
-function renderPrayers(prayerTimes, date) {
-    const allDaysPrayersWrapper = document.querySelector("#all-days-prayers-wrapper");
 
-    if(date) {
-        const prayerDateHtml = getPayerDateTemplate(date);
-        allDaysPrayersWrapper.insertAdjacentHTML("beforeend", prayerDateHtml);
+    const endDate = new Date(2023, 11, 31);
+    let daysAfterCurrentDate = 1;
+    let nextFullDate = getNextDate(currentFullDate, daysAfterCurrentDate);
+
+    while((prayerTimeTable[nextFullDate.getMonth() + 1][nextFullDate.getDate()])
+        ) {
+        const allDatesContainingPrayersForTheMonth = prayerTimeTable[nextFullDate.getMonth() + 1];
+        const prayersForTheDay = allDatesContainingPrayersForTheMonth[nextFullDate.getDate()];
+        
+        const slideTemplate = getPrayerTemplate(prayersForTheDay, nextFullDate);
+        mySwiper.appendSlide(slideTemplate);
+
+        nextFullDate = getNextDate(currentFullDate, daysAfterCurrentDate)
     }
 
-    ({ down, sunrise, dhuhr, asr, maghrib, isha } = prayerTimes);
-    const prayersHtml = getPrayerTemplate(down, sunrise, dhuhr, asr, maghrib, isha);
-    
-    allDaysPrayersWrapper.insertAdjacentHTML("beforeend", prayersHtml);
-}
+});
+
+// function renderCurrentDate(userDateInfo) {
+//     const currentDate = document.querySelector("#current-date")
+//     currentDate.textContent = `${userDateInfo.currentDate}/${userDateInfo.currentMonth}/${userDateInfo.currentYear}`;
+// }
 
 function getCurrentUserDate() {
     const currentUserTimeAsTimeStamp = Date.now();
     const fullDate = new Date(currentUserTimeAsTimeStamp);
-    const currentMonth = fullDate.getMonth() + 1;
-    const currentDate = fullDate.getDate();
-    const currentYear = fullDate.getFullYear();
-
-    return {
-        fullDate,
-        currentYear,
-        currentMonth,
-        currentDate
-    }
+    return fullDate;
 }
 
 function getNextDate(currentUserDate, daysLater) {
     const currentDate = currentUserDate.getDate();
     const nextDateAsTimeStamp = currentUserDate.setDate(currentDate + daysLater);
-    const fullNextDate = new Date(nextDateAsTimeStamp);
-    const nextYear = fullNextDate.getFullYear();
-    const nextMonth = fullNextDate.getMonth() + 1;
-    const nextDate = fullNextDate.getDate();
-    
-    return {
-        fullNextDate,
-        nextYear,
-        nextMonth,
-        nextDate
-    };
+    const fullDate = new Date(nextDateAsTimeStamp);
+    return fullDate;
 }
 
 // function calculateNightPrayer(maghribPrayerTime, nextDayFajrPrayerTime) {
 //     const [maghribHours, maghribMinutes] = maghribPrayerTime.split(":");
-    
+
 //     const maghribTimeAsDate = new Date();
 //     maghribTimeAsDate.setHours(maghribHours);
 //     maghribTimeAsDate.setMinutes(maghribMinutes);
@@ -92,13 +83,23 @@ function getNextDate(currentUserDate, daysLater) {
 //     const lastThirdAsTimeStamp = fajrTimeAsDate - (nightDurationAsTimeStamp / 3);
 
 //     const lastThirdAsDate = new Date(lastThirdAsTimeStamp);
-    
+
 //     debugger;
 // }
 
-function getPrayerTemplate(down, sunrise, dhuhr, asr, maghrib, isha) {
+function getPrayerTemplate(prayerTimes, fullDate) {
+    // if(typeof prayerTimes === 'undefined') {
+    //     debugger;
+    // }
+    ({ down, sunrise, dhuhr, asr, maghrib, isha } = prayerTimes);
+
+    const date = fullDate.getDate();
+    const month = fullDate.toLocaleString('default', { month: 'long' });
+    const year = fullDate.getFullYear();
+
     return `
-    <div class="times-container">
+    <swiper-slide class="swiper-slide">
+    <h2 class="date">${date}/${month}/${year}</h2>
         <p class="prayer">
             <span class="name">Сабах:</span>
             <span data-down id="down" class="time">${down}</span>
@@ -123,7 +124,7 @@ function getPrayerTemplate(down, sunrise, dhuhr, asr, maghrib, isha) {
             <span class="name">Еция:</span>
             <span class="time">${isha}</span>
         </p>
-    </div>
+    </swiper-slide>
     `;
 }
 

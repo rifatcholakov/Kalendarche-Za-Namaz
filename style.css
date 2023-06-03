@@ -1,17 +1,38 @@
+html,
 body {
-    font-family: sans-serif;
-    background: #fff;
-    color: #fff;
-    margin: 0;
+  position: relative;
+  height: 100%;
 }
 
-.wrapper {
-    background: #2E8B57;
+body {
+  background: #eee;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}
+
+.mySwiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  width: 100%;
+  display: block;
 }
 
 .header {
     background: #2E8B57;
     padding: 1.5em;
+    color: #fff;
+    text-align: center;
 }
 
 .app-title {
@@ -20,11 +41,11 @@ body {
     margin-top: 0;
 }
 
-.today {
+/* .today {
     font-size: 1.9em;
     text-align: center;
     font-weight: 600;
-}
+} */
 
 .times-container {
     padding: 1.5em;
@@ -37,8 +58,7 @@ body {
 
 .date {
     text-align: center;
-    margin-top: 2em;
-    font-size: 1.9em;
+    font-size: 1.5em;
     font-weight: 600;
 }
 
@@ -46,6 +66,7 @@ body {
     padding: 1em 2em;
     background: #f9f9f9;
     border-radius: 0.5em;
+    text-align: left;
 }
 
 .prayer .name {
@@ -55,4 +76,15 @@ body {
 
 .prayer .time {
     font-size: 1.7em;
+} */
+
+/* body {
+    font-family: sans-serif;
+    background: #fff;
+    color: #fff;
+    margin: 0;
+}
+
+.wrapper {
+    background: #2E8B57;
 }

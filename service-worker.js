@@ -11,11 +11,11 @@ const assets = [
 
 self.addEventListener('install', evt => {
     console.log('service worker has been installed');
-    evt.waitUnit(
-        caches.open(staticCacheName).then(cache => {
-            cache.addAll(assets);
-        })
-    );
+    // evt.waitUnit(
+    //     caches.open(staticCacheName).then(cache => {
+    //         cache.addAll(assets);
+    //     })
+    // );
 });
 
 self.addEventListener("activate", evt => {

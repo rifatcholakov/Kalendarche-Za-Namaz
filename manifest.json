@@ -1,6 +1,6 @@
 {
-    "short_name": "KaledarcheZaNamaz",
-    "name": "Kalendarche za Namaz",
+    "short_name": "Календар за Намаз",
+    "name": "Календар за Намаз",
     "icons": [
       {
         "src": "/images/72x72.png",
@@ -48,5 +48,5 @@
     "display": "standalone",
     "scope": "/",
     "theme_color": "#2E8B57",
-    "description": "Kalendar koito pokazva vremeto za namaz"
+    "description": "Календар, който показва времето за намаз"
   }
