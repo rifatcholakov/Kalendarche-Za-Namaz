@@ -99,7 +99,7 @@ function getPrayerTemplate(prayerTimes, fullDate) {
 
     return `
     <swiper-slide class="swiper-slide">
-    <h2 class="date">${date}/${month}/${year}</h2>
+    <h2 class="date">${date} ${month} ${year}</h2>
         <p class="prayer">
             <span class="name">Сабах:</span>
             <span data-down id="down" class="time">${down}</span>
