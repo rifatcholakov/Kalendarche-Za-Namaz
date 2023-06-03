@@ -94,7 +94,7 @@ function getPrayerTemplate(prayerTimes, fullDate) {
     ({ down, sunrise, dhuhr, asr, maghrib, isha } = prayerTimes);
 
     const date = fullDate.getDate();
-    const month = fullDate.toLocaleString('default', { month: 'long' });
+    const month = fullDate.toLocaleString('bg', { month: 'long' });
     const year = fullDate.getFullYear();
 
     return `
