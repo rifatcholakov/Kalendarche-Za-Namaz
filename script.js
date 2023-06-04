@@ -11,11 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // SLIDER
     var mySwiper = new Swiper('#swiper-container', {
         direction: 'vertical',
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        mousewheel: true,
+        mousewheel: true
     });
 
     // mySwiper.on('slideChange', function () {
