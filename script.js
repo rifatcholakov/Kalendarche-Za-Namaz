@@ -26,19 +26,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const currentFullDate = getCurrentUserDate();
     const allDatesContainingPrayersForCurrentMonth = prayerTimeTable[currentFullDate.getMonth() + 1];
     const currentDayPrayer = allDatesContainingPrayersForCurrentMonth[currentFullDate.getDate()];
-    const currentDaySlideTemplate = getPrayerTemplate(currentDayPrayer, currentFullDate);
+    const currentDaySlideTemplate = getPrayerTemplate(currentDayPrayer, currentFullDate, true);
     mySwiper.appendSlide(currentDaySlideTemplate);
 
-
-    const endDate = new Date(2023, 11, 31);
     let daysAfterCurrentDate = 1;
     let nextFullDate = getNextDate(currentFullDate, daysAfterCurrentDate);
 
-    while((prayerTimeTable[nextFullDate.getMonth() + 1][nextFullDate.getDate()])
-        ) {
+    while (
+        (prayerTimeTable[nextFullDate.getMonth() + 1])
+        || (prayerTimeTable[nextFullDate.getMonth() + 1]?.[nextFullDate.getDate()])
+    ) {
         const allDatesContainingPrayersForTheMonth = prayerTimeTable[nextFullDate.getMonth() + 1];
         const prayersForTheDay = allDatesContainingPrayersForTheMonth[nextFullDate.getDate()];
-        
+
         const slideTemplate = getPrayerTemplate(prayersForTheDay, nextFullDate);
         mySwiper.appendSlide(slideTemplate);
 
@@ -87,19 +87,18 @@ function getNextDate(currentUserDate, daysLater) {
 //     debugger;
 // }
 
-function getPrayerTemplate(prayerTimes, fullDate) {
-    // if(typeof prayerTimes === 'undefined') {
-    //     debugger;
-    // }
+function getPrayerTemplate(prayerTimes, fullDate, today) {
     ({ down, sunrise, dhuhr, asr, maghrib, isha } = prayerTimes);
 
     const date = fullDate.getDate();
     const month = fullDate.toLocaleString('bg', { month: 'long' });
     const year = fullDate.getFullYear();
 
+    const isToday = today ? "today" : "hidden";
+
     return `
     <swiper-slide class="swiper-slide">
-    <h2 class="date">${date} ${month} ${year}</h2>
+    <h2 class="date"><span class="${isToday}">Днес: </span>${date} ${month} ${year}</h2>
         <p class="prayer">
             <span class="name">Сабах:</span>
             <span data-down id="down" class="time">${down}</span>
@@ -126,8 +125,4 @@ function getPrayerTemplate(prayerTimes, fullDate) {
         </p>
     </swiper-slide>
     `;
-}
-
-function getPayerDateTemplate(date) {
-    return `<h2 class="date">Утре: ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}</h2>`
 }

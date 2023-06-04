@@ -42,11 +42,13 @@ body {
     margin-top: 0;
 }
 
-/* .today {
-    font-size: 1.9em;
-    text-align: center;
-    font-weight: 600;
-} */
+.hidden {
+    display: none;
+}
+
+.today {
+
+}
 
 .times-container {
     padding: 1.5em;
