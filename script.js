@@ -5,25 +5,47 @@ if ('serviceWorker' in navigator) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const response = await fetch("/time.json");
-    const prayerTimeTable = await response.json();
+    let selectedCity = localStorage.getItem("selectedCity");
+    const selectedCityElement = document.querySelector("#selected-city");
+    
+    if (!selectedCity) {
+        selectedCity = selectedCityElement.options[selectedCityElement.selectedIndex].value;
+    }
 
-    // SLIDER
-    var mySwiper = new Swiper('#swiper-container', {
+    selectedCityElement.value = selectedCity;
+
+    const prayerTimeTable = await getTimeForSelectedCity(selectedCity);
+
+    const swiperInstance = new Swiper('#swiper', {
         direction: 'vertical',
-        mousewheel: true
+        scrollbar: {
+            draggable: true,
+            el: '.swiper-scrollbar',
+        },
+        mousewheel: true,
     });
 
-    // mySwiper.on('slideChange', function () {
-    //     console.log('Slide changed');
-    // });
-    // END
+    selectedCityElement.addEventListener("change", (event) => changeTimeToSelectedCity(event, swiperInstance));
+    renderPrayerSlides(prayerTimeTable, swiperInstance);
+});
 
+async function changeTimeToSelectedCity(event, swiperInstance) {
+    const element = event.target;
+    const selectedCity = element.options[element.selectedIndex].value;
+    localStorage.setItem("selectedCity", selectedCity);
+
+    const prayerTimeTable = await getTimeForSelectedCity(selectedCity);
+
+    swiperInstance.removeAllSlides()
+    renderPrayerSlides(prayerTimeTable, swiperInstance);
+}
+
+function renderPrayerSlides(prayerTimeTable, swiperInstance) {
     const currentFullDate = getCurrentUserDate();
     const allDatesContainingPrayersForCurrentMonth = prayerTimeTable[currentFullDate.getMonth() + 1];
     const currentDayPrayer = allDatesContainingPrayersForCurrentMonth[currentFullDate.getDate()];
     const currentDaySlideTemplate = getPrayerTemplate(currentDayPrayer, currentFullDate, true);
-    mySwiper.appendSlide(currentDaySlideTemplate);
+    swiperInstance.appendSlide(currentDaySlideTemplate);
 
     let daysAfterCurrentDate = 1;
     let nextFullDate = getNextDate(currentFullDate, daysAfterCurrentDate);
@@ -36,17 +58,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         const prayersForTheDay = allDatesContainingPrayersForTheMonth[nextFullDate.getDate()];
 
         const slideTemplate = getPrayerTemplate(prayersForTheDay, nextFullDate);
-        mySwiper.appendSlide(slideTemplate);
+        swiperInstance.appendSlide(slideTemplate);
 
         nextFullDate = getNextDate(currentFullDate, daysAfterCurrentDate)
     }
+}
 
-});
+async function getTimeForSelectedCity(selectedCity) {
+    const response = await fetch(`/${selectedCity}-time.json`);
+    const prayerTimeTable = await response.json();
 
-// function renderCurrentDate(userDateInfo) {
-//     const currentDate = document.querySelector("#current-date")
-//     currentDate.textContent = `${userDateInfo.currentDate}/${userDateInfo.currentMonth}/${userDateInfo.currentYear}`;
-// }
+    return prayerTimeTable;
+}
 
 function getCurrentUserDate() {
     const currentUserTimeAsTimeStamp = Date.now();
@@ -93,8 +116,8 @@ function getPrayerTemplate(prayerTimes, fullDate, today) {
     const isToday = today ? "today" : "hidden";
 
     return `
-    <swiper-slide class="swiper-slide">
-    <h2 class="date"><span class="${isToday}">Днес: </span>${date} ${month} ${year}</h2>
+    <div class="swiper-slide">
+        <h2 class="date"><span class="${isToday}">Днес: </span>${date} ${month} ${year}</h2>
         <p class="prayer">
             <span class="name">Сабах:</span>
             <span data-down id="down" class="time">${down}</span>
@@ -119,6 +142,6 @@ function getPrayerTemplate(prayerTimes, fullDate, today) {
             <span class="name">Еция:</span>
             <span class="time">${isha}</span>
         </p>
-    </swiper-slide>
+    </div>
     `;
 }
