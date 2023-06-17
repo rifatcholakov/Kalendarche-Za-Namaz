@@ -1,27 +1,30 @@
-const staticCacheName = 'site-static';
-
-const assets = [
-    '/',
-    '/index.html',
-    '/script.js',
-    '/style.css',
-    '/time.json',
-    '/css/styles.css',
-];
-
-self.addEventListener('install', evt => {
-    console.log('service worker has been installed');
-    // evt.waitUnit(
-    //     caches.open(staticCacheName).then(cache => {
-    //         cache.addAll(assets);
-    //     })
-    // );
+self.addEventListener('install', event => {
+    event.waitUntil(
+        caches.open('my-cache').then(cache => {
+            return cache.addAll([
+                '/',
+                '/index.html',
+                '/style.css',
+                '/script.js',
+                '/gotse-delchev-time.json',
+                '/sofia-time.json'
+            ]).catch(error => {
+                console.error('Caching failed:', error);
+            });
+        })
+    );
 });
 
 self.addEventListener("activate", evt => {
     console.log('service worker has been activated');
 });
 
-self.addEventListener('fetch', evt => {
-    // console.log('fetch event', evt)
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        caches.match(event.request).then(response => {
+            return response || fetch(event.request);
+        }).catch(error => {
+            console.error('Error in fetch handler:', error);
+        })
+    );
 });
