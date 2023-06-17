@@ -40,10 +40,10 @@ self.addEventListener("activate", evt => {
     );
 });
 
-self.addEventListener('fetch', event => {
-    event.respondWith(
-        caches.match(event.request).then(response => {
-            return response || fetch(event.request).then(fetchRes => {
+self.addEventListener('fetch', evt => {
+    evt.respondWith(
+        caches.match(evt.request).then(response => {
+            return response || fetch(evt.request).then(fetchRes => {
                 return caches.open(dynamicCache).then(cache => {
                     cache.put(evt.request.url, fetchRes.clone());
                     limitCacheSize(dynamicCache, 50);
